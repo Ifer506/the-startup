@@ -19,7 +19,6 @@ current_time = 0
 game_time = 0
 
 
-
 def plot_snk(screen, color, snk_list, snk_width, snk_height):
     for i in snk_list:
         pygame.draw.rect(screen, black, (i[0], i[1], 20, 20))
@@ -32,6 +31,7 @@ def show_score(text, color, x, y):
     score = font.render(text, True, color)
     screen.blit(score, (x, y))
 
+
 # def instruction():
 #     Instruction_img = pygame.image.load('')
 #     run = True
@@ -42,7 +42,6 @@ def show_score(text, color, x, y):
 #         screen.blit(, (0, 0))
 
 
-
 def Intro():
     intro = pygame.image.load('Background.jpg')
     run = True
@@ -50,6 +49,10 @@ def Intro():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+
         screen.blit(intro, (0, 0))
         pygame.draw.rect(screen, dgreen, (352, 364, 100, 40))
         show_score('START', white, 361, 372)
@@ -64,14 +67,13 @@ def Intro():
         if mouse[0] > 352 and mouse[0] < 451 and mouse[1] > 364 and mouse[1] < 403:
             show_score('START', green, 361, 372)
             if click == (1, 0, 0):
-                game_time = pygame.time.get_ticks()
                 game_loop()
 
         if mouse[0] > 298 and mouse[0] < 501 and mouse[1] > 425 and mouse[1] < 463:
             show_score('INSTRUCTIONS', green, 308, 433)
             # if click == (1, 0, 0):
 
-                # instruction()
+            # instruction()
 
         pygame.display.update()
 
@@ -82,7 +84,7 @@ def game_loop():
     snk_xchange = 0
     snk_ychange = 0
     snk_list = []
-    snk_length = 3
+    snk_length = 20
 
     score = 0
     game_over = False
@@ -92,21 +94,26 @@ def game_loop():
     food_y = 300
     food_xchange = 0
     food_ychange = 0
+    game_time = pygame.time.get_ticks()
+    print(game_time)
 
     run = True
 
     while run:
+
         if game_over:
             screen.fill(black)
+            if score >= 2:
+                show_score('Snake wins !!press enter to continue or esc to quit', red, 20, 250)
+            else :
+                show_score('Mouse wins !!press enter to continue or esc to quit', red, 20, 250)
 
-            show_score('Game over !!press enter to continue or esc to quit', red, 20, 250)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
                 if event.type == pygame.KEYDOWN:
-                    a = 0
                     if event.key == pygame.K_RETURN:
-                        print(f"a is here {a}")
+                        run = False
                         game_loop()
                     if event.key == pygame.K_ESCAPE:
                         run = False
@@ -117,6 +124,9 @@ def game_loop():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        run = False
 
                 if event.type == pygame.KEYDOWN:
 
@@ -162,8 +172,6 @@ def game_loop():
             snk_x += snk_xchange
             snk_y += snk_ychange
 
-
-
             # for food boudary
             if food_x < 0:
                 food_x = 800
@@ -180,7 +188,6 @@ def game_loop():
 
             # snake length increase
 
-
             body = []
             body.append(snk_x)
             body.append(snk_y)
@@ -192,27 +199,30 @@ def game_loop():
             # food interaction
             if abs(snk_x - food_x) < 23 and abs(snk_y - food_y) < 20:
                 score += 1
-                snk_length += 7
+                snk_length += 10
                 food_x = random.randint(20, 780)
                 food_y = random.randint(20, 480)
-
-
+                if score >= 2:
+                    game_over = True
 
             current_time = pygame.time.get_ticks()
 
-            a = (current_time - game_time)
-            if a > 6000:
-                print(a)
+            if (current_time - game_time) > 10000:
+                a = (current_time - game_time)
+                game_time = 0
+                current_time = 0
+                if a/1000 == 2 or 4 or 6 or 8 or 10:
+                    snk_length += 30
+                print(pygame.time.get_ticks())
                 game_over = True
-
 
             screen.blit(food, (food_x, food_y, 8, 8))
             pygame.draw.rect(screen, yellow, (snk_x, snk_y, 20, 20))
             plot_snk(screen, yellow, snk_list, 20, 20)
             show_score('Score: ' + str(score), green, 630, 20)
-            show_score('Timer: ' + str(a), green, 630, 40)
+            show_score('Timer: ' + str((current_time - game_time) / 1000), green, 630, 40)
 
-            clock.tick(400)
+        clock.tick(400)
         pygame.display.update()
 
 

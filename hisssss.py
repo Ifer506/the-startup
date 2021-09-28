@@ -118,7 +118,7 @@ def instruction():
 
 def Intro():
     music()
-    intro = pygame.image.load('Background.jpg')
+    intro = pygame.image.load('snake_back_1.png')
 
 
     run = True
@@ -141,10 +141,9 @@ def Intro():
         click = pygame.mouse.get_pressed()
         # print(mouse)
 
-        if mouse[0] > 352 and mouse[0] < 451 and mouse[1] > 364 and mouse[1] < 403:
-            show_score('START', green, 361, 372)
+        if 320 < mouse[0] < 470 and 344 < mouse[1] < 384:
+            show_score('START', white, font, 361, 350)
             if click == (1, 0, 0):
-                print('loco')
                 game_loop()
 
         if mouse[0] > 298 and mouse[0] < 501 and mouse[1] > 425 and mouse[1] < 463:

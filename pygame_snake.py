@@ -77,13 +77,11 @@ def classic_mode():
         if 320 < mouse[0] < 470 and 344 < mouse[1] < 384:
             show_score('START', white, Comic_sans_20, 361, 350)
             if click == (1, 0, 0):
-                print("hello")
                 CLASSIC()
 
         if 285 < mouse[0] < 505 and 424 < mouse[1] < 464:
             show_score('INSTRUCTION', white, Comic_sans_20, 320, 430)
             if click == (1, 0, 0):
-                print("helko")
                 instruction()
 
         if 700 < mouse[0] < 780 and 20 < mouse[1] < 55:
@@ -124,13 +122,11 @@ def one_vs_one():
         if 320 < mouse[0] < 470 and 344 < mouse[1] < 384:
             show_score('START', white, Comic_sans_20, 361, 350)
             if click == (1, 0, 0):
-                print("hello")
                 game_loop()
 
         if 285 < mouse[0] < 505 and 424 < mouse[1] < 464:
             show_score('INSTRUCTION', white, Comic_sans_20, 320, 430)
             if click == (1, 0, 0):
-                print("hello")
                 Instruction()
 
         if 700 < mouse[0] < 780 and 20 < mouse[1] < 55:
@@ -314,38 +310,32 @@ def Instruction():
         current_time = pygame.time.get_ticks()
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
-        print(mouse)
 
         global ti, s
 
         if mouse[0] > 161 and mouse[0] < 190 and mouse[1] > 307 and mouse[1] < 338:
             if click == (1, 0, 0):
                 screen.blit(up2, (161, 307))
-                print('high')
                 ti = ti + 2500
-                print(ti)
+
 
         if mouse[0] > 161 and mouse[0] < 192 and mouse[1] > 380 and mouse[1] < 408:
             screen.blit(down, (161, 380))
             if click == (1, 0, 0):
                 screen.blit(down2, (161, 380))
-                print('down ')
                 if ti < 0:
                     ti = ti
                 elif ti > 0:
                     ti = ti - 2500
-                print(ti)
 
         if mouse[0] > 420 and mouse[0] < 451 and mouse[1] > 307 and mouse[1] < 328:
             if click == (1, 0, 0):
                 screen.blit(up2, (420, 307))
-                print('nex up')
                 s += 1
 
         if mouse[0] > 420 and mouse[0] < 451 and mouse[1] > 380 and mouse[1] < 409:
             if click == (1, 0, 0):
                 screen.blit(down2, (420, 380))
-                print('nex down')
                 if s < 0:
                     s = s
                 elif s > 0:
@@ -399,8 +389,8 @@ def game_loop():
             if score >= s:
                 snakewin = pygame.image.load('snakewin.png')
                 screen.blit(snakewin, (0, 0))
-                sap = mixer.Sound('hiss.wav')
-                sap.play()
+                trump = mixer.Sound('trumpet.wav')
+                trump.play()
 
             else:
                 mousewin = pygame.image.load('mousewin.png')
@@ -411,13 +401,10 @@ def game_loop():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     mixer.music.stop()
-                    trump.stop()
-                    sap.stop()
                     run = False
                 if event.type == pygame.KEYDOWN:
                     mixer.music.stop()
                     trump.stop()
-                    sap.stop()
                     if event.key == pygame.K_RETURN:
                         run = False
                         game_loop()
@@ -529,7 +516,6 @@ def game_loop():
                 current_time = 0
                 if a / 1000 == 2.0 or 4.0 or 6.0 or 8 or 10.0:
                     snk_length += 50
-                print(pygame.time.get_ticks())
                 game_over = True
 
             screen.blit(food, (food_x, food_y, 8, 8))

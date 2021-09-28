@@ -1,6 +1,7 @@
-import pygame
 import random
 from sys import exit
+
+import pygame
 from pygame import mixer
 
 # initializing pygame
@@ -13,6 +14,7 @@ icon = pygame.image.load("snake_icon.png")
 pygame.display.set_icon(icon)
 pygame.display.set_caption("Snake Game ")
 
+# fonts
 font = pygame.font.SysFont("times", 20)
 Kristen = pygame.font.SysFont("Kristen ITC", 40)
 Kristen_30 = pygame.font.SysFont("Kristen ITC", 30)
@@ -20,7 +22,10 @@ Comic_sans = pygame.font.SysFont("Comic Sans MS", 40)
 Comic_sans_20 = pygame.font.SysFont("Comic Sans MS", 20)
 digit = pygame.font.Font("digital-7 (mono).ttf", 28)
 
+# time module
 clock = pygame.time.Clock()
+
+# color
 white = (255, 255, 255)
 black = (0, 0, 0)
 yellow = (255, 255, 0)
@@ -33,13 +38,13 @@ current_time = 0
 game_time = 0
 
 global ti, s
-ti = 10000
-s = 2
-
+ti = 15000
+s = 3
 
 def show_score(text, color, font, x, y):
     score = font.render(text, True, color)
     screen.blit(score, (x, y))
+
 
 def music():
     mixer.init()
@@ -48,6 +53,7 @@ def music():
     mixer.music.play()
 
 
+# To run classic mode
 def classic_mode():
     intro_image = pygame.image.load("snake_back_1.png")
 
@@ -127,7 +133,7 @@ def one_vs_one():
         if 285 < mouse[0] < 505 and 424 < mouse[1] < 464:
             show_score('INSTRUCTION', white, Comic_sans_20, 320, 430)
             if click == (1, 0, 0):
-                Instruction()
+                instruction_1()
 
         if 700 < mouse[0] < 780 and 20 < mouse[1] < 55:
             show_score("Back", white, Comic_sans_20, 715, 22)
@@ -174,6 +180,7 @@ def game_exit():
         pygame.display.update()
 
 
+# the page in which 1v1 and classic selection
 def intro_page():
     music()
     image = pygame.image.load("blank.png")
@@ -218,7 +225,8 @@ def intro_page():
         pygame.display.update()
 
 
-def Intro():
+# The first page
+def intro():
     intro_image = pygame.image.load("wallpaper.png")
 
     running = True
@@ -257,13 +265,15 @@ def about():
         screen.blit(image, (0, 0))
         pygame.display.update()
 
-def High_score():
+
+def high_score():
     with open("highscore.txt", "r") as hs:
         return hs.read()
 
 
+# instruction for classic
 def instruction():
-    Instruction_img = pygame.image.load('classic_instruction.png')
+    instruction_img = pygame.image.load('classic_instruction.png')
     run = True
     while run:
         for event in pygame.event.get():
@@ -272,19 +282,16 @@ def instruction():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
-        screen.blit(Instruction_img, (0, 0))
-
-        current_time = pygame.time.get_ticks()
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed(3)
+        screen.blit(instruction_img, (0, 0))
 
         show_score("press esc to exit ", dgreen, digit, 442, 432)
 
         pygame.display.update()
 
 
-def Instruction():
-    Instruction_img = pygame.image.load('greeen.png')
+# instruction for 1v1
+def instruction_1():
+    instruction_img = pygame.image.load('greeen.png')
     up = pygame.image.load('up3.png')
     down = pygame.image.load('down3.png')
     up2 = pygame.image.load('up2.png')
@@ -298,7 +305,7 @@ def Instruction():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
-        screen.blit(Instruction_img, (0, 0))
+        screen.blit(instruction_img, (0, 0))
 
         screen.blit(up, (161, 307))
         screen.blit(down, (161, 380))
@@ -306,65 +313,63 @@ def Instruction():
         screen.blit(up, (420, 307))
         screen.blit(down, (420, 380))
 
-        current_time = pygame.time.get_ticks()
         mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
+        click = pygame.mouse.get_pressed(3)
 
         global ti, s
 
-        if mouse[0] > 161 and mouse[0] < 190 and mouse[1] > 307 and mouse[1] < 338:
+        if 161 < mouse[0] < 190 and 307 < mouse[1] < 338:
+            screen.blit(up2, (161, 307))
             if click == (1, 0, 0):
-                screen.blit(up2, (161, 307))
                 ti = ti + 2500
 
-
-        if mouse[0] > 161 and mouse[0] < 192 and mouse[1] > 380 and mouse[1] < 408:
+        if 161 < mouse[0] < 192 and 380 < mouse[1] < 408:
             screen.blit(down, (161, 380))
             if click == (1, 0, 0):
-                screen.blit(down2, (161, 380))
                 if ti < 0:
                     ti = ti
                 elif ti > 0:
                     ti = ti - 2500
 
-        if mouse[0] > 420 and mouse[0] < 451 and mouse[1] > 307 and mouse[1] < 328:
+        if 420 < mouse[0] < 451 and 307 < mouse[1] < 338:
+            screen.blit(up2, (420, 307))
             if click == (1, 0, 0):
-                screen.blit(up2, (420, 307))
                 s += 1
 
-        if mouse[0] > 420 and mouse[0] < 451 and mouse[1] > 380 and mouse[1] < 409:
+        if 420 < mouse[0] < 451 and 380 < mouse[1] < 409:
+            screen.blit(down2, (420, 380))
             if click == (1, 0, 0):
-                screen.blit(down2, (420, 380))
                 if s < 0:
                     s = s
                 elif s > 0:
                     s = s - 1
 
         pygame.draw.rect(screen, white, (151, 339, 50, 38))
-        show_score(str(ti // 1000), dgreen,digit, 164, 347)
+        show_score(str(ti // 1000), dgreen, digit, 164, 347)
 
         pygame.draw.rect(screen, white, (409, 339, 50, 38))
-        show_score(str(s), dgreen,digit, 422, 347)
+        show_score(str(s), dgreen, digit, 422, 347)
 
         print(mouse)
 
         show_score("press esc to exit ", dgreen, digit, 442, 430)
 
-        clock.tick(8)
+        clock.tick(9)
         pygame.display.update()
 
 
+# to draw snake
 def plot_snk(screen, color, snk_list, snk_width, snk_height):
     for i in snk_list:
-        pygame.draw.rect(screen, (244,164,96), (i[0], i[1], 20, 20))
+        pygame.draw.rect(screen, (244, 164, 96), (i[0], i[1], 20, 20))
 
 
+#  for 1v1
 def game_loop():
     mixer.music.stop()
     gam = mixer.Sound('gamesound.wav')
     gam.play()
 
-    snk = pygame.image.load('snake head.png')
     snk_x = 100
     snk_y = 100
     snk_xchange = 0
@@ -392,13 +397,13 @@ def game_loop():
             if score >= s:
                 snakewin = pygame.image.load('snakewin.png')
                 screen.blit(snakewin, (0, 0))
-                trump = mixer.Sound('trumpet.wav')
+                trump = mixer.Sound('Ta Da.wav')
                 trump.play()
 
             else:
                 mousewin = pygame.image.load('mousewin.png')
                 screen.blit(mousewin, (0, 0))
-                trump = mixer.Sound('trumpet.wav')
+                trump = mixer.Sound('Ta Da.wav')
                 trump.play()
 
             for event in pygame.event.get():
@@ -524,17 +529,18 @@ def game_loop():
             screen.blit(food, (food_x, food_y, 8, 8))
             pygame.draw.rect(screen, yellow, (snk_x, snk_y, 20, 20))
             plot_snk(screen, black, snk_list, 20, 20)
-            show_score(str(s), green,digit, 100, 6)
-            show_score(str((current_time - game_time) / 1000), green,digit, 686, 6)
+            show_score(str(s), green, digit, 100, 6)
+            show_score(str((current_time - game_time) / 1000), green, digit, 686, 6)
 
-        clock.tick(400)
+        clock.tick(2000)
         pygame.display.update()
 
+
+# for classic game
 def CLASSIC():
     mixer.music.stop()
     gam = mixer.Sound('gamesound.wav')
     gam.play(-1)
-
 
     snk_x = 100
     snk_y = 100
@@ -547,17 +553,15 @@ def CLASSIC():
     game_over = False
 
     try:
-        highscore = int(High_score())
+        highscore = int(high_score())
     except:
         highscore = 0
 
-    foods = [ 'apple.png', 'mouse.png', 'mouse4.png']
+    foods = ['apple.png', 'mouse.png', 'mouse4.png']
     food = pygame.image.load(random.choice(foods))
 
     food_x = 400
     food_y = 300
-
-    global border
 
     run = True
 
@@ -570,7 +574,7 @@ def CLASSIC():
                 hs.write(str(highscore))
 
             gg = pygame.image.load('GG.png')
-            screen.blit(gg,(0,0))
+            screen.blit(gg, (0, 0))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -589,7 +593,7 @@ def CLASSIC():
 
             # screen.fill((32, 32, 32))
             back = pygame.image.load('Back2.png')
-            screen.blit(back,(0,0))
+            screen.blit(back, (0, 0))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
@@ -641,7 +645,7 @@ def CLASSIC():
                 del snk_list[0]
 
             # food interaction
-            if abs(snk_x-food_x) < 23 and abs(snk_y-food_y) < 20:
+            if abs(snk_x - food_x) < 23 and abs(snk_y - food_y) < 20:
                 eat = mixer.Sound('gulp1.wav')
                 eat.play()
                 score += 1
@@ -656,18 +660,19 @@ def CLASSIC():
             screen.blit(food, (food_x, food_y, 8, 8))
             pygame.draw.rect(screen, yellow, (snk_x, snk_y, 20, 20))
             plot_snk(screen, black, snk_list, 20, 20)
-            show_score(str(score), green,digit, 660, 7)
+            show_score(str(score), green, digit, 660, 7)
 
             if highscore < score:
                 highscore = score
             with open("highscore.txt", "w") as f:
-                f.write("Highscore = " + str(highscore))
-            show_score(str(highscore), green,digit, 155, 7)
+                f.write("highscore = " + str(highscore))
+            show_score(str(highscore), green, digit, 155, 7)
             pygame.display.update()
 
-        clock.tick(400)
+        clock.tick(2000)
         pygame.display.update()
 
-Intro()
+
+intro()
 pygame.quit()
 quit()

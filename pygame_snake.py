@@ -263,7 +263,7 @@ def High_score():
 
 
 def instruction():
-    Instruction_img = pygame.image.load('greeen.png')
+    Instruction_img = pygame.image.load('classic_instruction.png')
     run = True
     while run:
         for event in pygame.event.get():
@@ -274,12 +274,11 @@ def instruction():
                     run = False
         screen.blit(Instruction_img, (0, 0))
 
-        pygame.draw.rect(screen, black, (198, 331, 50, 38))
-        pygame.draw.rect(screen, black, (198, 407, 50, 38))
-
         current_time = pygame.time.get_ticks()
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed(3)
+
+        show_score("press esc to exit ", dgreen, digit, 442, 432)
 
         pygame.display.update()
 
@@ -346,6 +345,10 @@ def Instruction():
 
         pygame.draw.rect(screen, white, (409, 339, 50, 38))
         show_score(str(s), dgreen,digit, 422, 347)
+
+        print(mouse)
+
+        show_score("press esc to exit ", dgreen, digit, 442, 430)
 
         clock.tick(8)
         pygame.display.update()
